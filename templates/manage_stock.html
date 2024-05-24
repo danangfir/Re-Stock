@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Stok Barang</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+    <h1>Kelola Stok Barang</h1>
+    <form method="POST">
+        <label for="sku">SKU:</label><br>
+        <input type="text" id="sku" name="sku"><br>
+        <label for="name">Nama Barang:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="price">Harga Satuan:</label><br>
+        <input type="text" id="price" name="price"><br>
+        <label for="stock">Jumlah Stok:</label><br>
+        <input type="text" id="stock" name="stock"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

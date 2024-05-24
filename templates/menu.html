@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Utama</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+    <h1>Menu Utama</h1>
+    <ul>
+        <li><a href="{{ url_for('manage_stock') }}">Kelola Stok Barang</a></li>
+        <li><a href="{{ url_for('restock') }}">Restok Barang</a></li>
+        <li><a href="{{ url_for('manage_transactions') }}">Kelola Transaksi Konsumen</a></li>
+        <li><a href="{{ url_for('view_transactions') }}">Lihat Semua Transaksi</a></li>
+        <li><a href="{{ url_for('view_transactions_sorted') }}">Lihat Transaksi Berdasarkan Subtotal</a></li>
+    </ul>
+</body>
+</html>
