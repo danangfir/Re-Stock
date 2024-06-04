@@ -130,5 +130,16 @@ def view_transactions_sorted():
     sorted_transactions = sorted(transactions, key=lambda x: x.subtotal, reverse=True)
     return render_template('view_transactions_sorted.html', transactions=sorted_transactions)
 
+@app.route('/view_stock')
+def view_stock():
+    items = []
+    def inorder(node):
+        if node:
+            inorder(node.left)
+            items.append(node)
+            inorder(node.right)
+    inorder(stock_bst.root)
+    return render_template('view_stock.html', items=items)
+
 if __name__ == '__main__':
     app.run(debug=True)
