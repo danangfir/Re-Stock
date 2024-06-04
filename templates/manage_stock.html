@@ -4,6 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Stok Barang</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-size: 100% 100%;
+            background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+            background-image: radial-gradient(18% 28% at 24% 50%, #09292BFF 7%, #073AFF00 100%),radial-gradient(18% 28% at 18% 71%, #12289B59 6%, #073AFF00 100%),radial-gradient(70% 53% at 36% 76%, #1B1F1FFF 0%, #073AFF00 100%),radial-gradient(42% 53% at 15% 94%, #000000FF 7%, #073AFF00 100%),radial-gradient(42% 53% at 34% 72%, #000000FF 7%, #073AFF00 100%),radial-gradient(18% 28% at 35% 87%, #AA2222FF 7%, #073AFF00 100%),radial-gradient(31% 43% at 7% 98%, #2C1A1AFF 24%, #073AFF00 100%),radial-gradient(21% 37% at 72% 23%, #1C535B9C 24%, #073AFF00 100%),radial-gradient(35% 56% at 91% 74%, #000000F5 9%, #073AFF00 100%),radial-gradient(74% 86% at 67% 38%, #214471F5 24%, #073AFF00 100%),linear-gradient(125deg, #0B0A0AFF 1%, #4C00FCFF 100%);
+        }
+
+        .card {
+          backdrop-filter: blur(10px);
+          background-color: rgba(36,41,46);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+          width: 500px;
+          margin: 0 auto;
+        }
+
+        body, .title, .label, .field .button {
+          font-family: 'JetBrains Mono', monospace;
+        }
+
+        .title {
+            background-color: #02CCAB;
+        }
+
+        .label {
+          color: #C74F82;
+        }
+
+        .input {
+          background-color: #14161a;
+          color: white;
+        }
+    </style>
 </head>
 <body>
     {% with messages = get_flashed_messages() %}
@@ -15,17 +54,52 @@
       </ul>
     {% endif %}
   {% endwith %}
-    <h1>Kelola Stok Barang</h1>
-    <form method="POST">
-        <label for="sku">SKU:</label><br>
-        <input type="text" id="sku" name="sku"><br>
-        <label for="name">Nama Barang:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="price">Harga Satuan:</label><br>
-        <input type="text" id="price" name="price"><br>
-        <label for="stock">Jumlah Stok:</label><br>
-        <input type="text" id="stock" name="stock"><br><br>
-        <input type="submit" value="Submit">
-    </form>
+
+    <div class="section">
+        <div class="container is-fluid">
+            <div class="card">
+                <div class="card-content">
+                    <h1 class="title has-text-centered">Kelola Stok Barang</h1>
+                    <form method="POST">
+                        <div class="field">
+                            <label class="label" for="sku">SKU:</label>
+                            <div class="control">
+                                <input class="input is-info"
+                                type="text"
+                                placeholder="SKU harus 4 angka" id="sku" name="sku">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="name">Nama Barang:</label>
+                            <div class="control">
+                                <input class="input" placeholder="Masukan nama barang" type="text" id="name" name="name">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="price">Harga Satuan:</label>
+                            <div class="control">
+                                <input class="input" placeholder="Masukan nilai harga" type="text" id="price" name="price">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="stock">Jumlah Stok:</label>
+                            <div class="control">
+                                <input class="input" placeholder="Masukan Jumlah Stok" type="text" id="stock" name="stock">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="button is-link" type="submit" value="Submit">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

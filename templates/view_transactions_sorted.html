@@ -1,36 +1,88 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lihat Transaksi Berdasarkan Subtotal</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lihat Transaksi Berdasarkan Subtotal</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+   <style>
+       html, body {
+           height: 100%;
+           margin: 0;
+       }
+
+       body {
+           background-size: 100% 100%;
+           background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+           background-image: radial-gradient(18% 28% at 24% 50%, #09292BFF 7%, #073AFF00 100%),radial-gradient(18% 28% at 18% 71%, #12289B59 6%, #073AFF00 100%),radial-gradient(70% 53% at 36% 76%, #1B1F1FFF 0%, #073AFF00 100%),radial-gradient(42% 53% at 15% 94%, #000000FF 7%, #073AFF00 100%),radial-gradient(42% 53% at 34% 72%, #000000FF 7%, #073AFF00 100%),radial-gradient(18% 28% at 35% 87%, #AA2222FF 7%, #073AFF00 100%),radial-gradient(31% 43% at 7% 98%, #2C1A1AFF 24%, #073AFF00 100%),radial-gradient(21% 37% at 72% 23%, #1C535B9C 24%, #073AFF00 100%),radial-gradient(35% 56% at 91% 74%, #000000F5 9%, #073AFF00 100%),radial-gradient(74% 86% at 67% 38%, #214471F5 24%, #073AFF00 100%),linear-gradient(125deg, #0B0A0AFF 1%, #4C00FCFF 100%);
+           font-family: 'JetBrains Mono', monospace;
+       }
+
+       .card {
+         backdrop-filter: blur(10px);
+         background-color: rgba(36,41,46);
+         border: 1px solid rgba(255, 255, 255, 0.2);
+         box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+         width: 800px;
+         margin: 0 auto;
+       }
+
+       body, .title, .label, .field .button {
+         font-family: 'JetBrains Mono', monospace;
+       }
+
+       .title {
+           background-color: #02CCAB;
+       }
+
+       .label {
+         color: #C74F82;
+       }
+
+       .table {
+           color: white;
+       }
+   </style>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
-    <h1>Transaksi Berdasarkan Subtotal</h1>
-    <table>
-        <tr>
-            <th>Nama Konsumen</th>
-            <th>SKU</th>
-            <th>Jumlah Beli</th>
-            <th>Subtotal</th>
-        </tr>
-        {% for transaction in transactions %}
-        <tr>
-            <td>{{ transaction.customer_name }}</td>
-            <td>{{ transaction.sku }}</td>
-            <td>{{ transaction.quantity }}</td>
-            <td>{{ transaction.subtotal }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+   {% with messages = get_flashed_messages() %}
+   {% if messages %}
+     <ul>
+     {% for message in messages %}
+       <li>{{ message }}</li>
+     {% endfor %}
+     </ul>
+   {% endif %}
+ {% endwith %}
+
+   <div class="section">
+       <div class="container is-fluid">
+           <div class="card">
+               <div class="card-content">
+                   <h1 class="title has-text-centered">Transaksi Berdasarkan Subtotal</h1>
+                   <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                       <thead>
+                           <tr>
+                               <th>Nama Konsumen</th>
+                               <th>SKU</th>
+                               <th>Jumlah Beli</th>
+                               <th>Subtotal</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           {% for transaction in transactions %}
+                           <tr>
+                               <td>{{ transaction.customer_name }}</td>
+                               <td>{{ transaction.sku }}</td>
+                               <td>{{ transaction.quantity }}</td>
+                               <td>{{ transaction.subtotal }}</td>
+                           </tr>
+                           {% endfor %}
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+   </div>
 </body>
 </html>
