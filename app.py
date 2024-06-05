@@ -183,5 +183,24 @@ def delete_stock():
         return redirect(url_for('main_menu'))
     return render_template('delete_stock.html')
 
+@app.route('/exit')
+def exit_program_route():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Tidak dapat menutup server')
+    func()
+    raise SystemExit('Aplikasi telah ditutup')
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    try:
+        return main_menu()
+    except SystemExit as e:
+        print(str(e))
+
+def main_menu():
+    return render_template('menu.html', exit_program_url=url_for('exit_program_route'))
+
 if __name__ == '__main__':
     app.run(debug=True)
