@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -103,7 +104,9 @@ def manage_stock():
         except ValueError:
             flash('Harga dan stok harus berupa angka.')
             return redirect(url_for('manage_stock'))
-        stock_bst.insert(sku, name, price, stock)
+        stock = Stock(sku=sku, name=name, price=price, stock=stock)
+        db.session.add(stock)
+        db.session.commit()
         flash('Data stok barang berhasil ditambahkan.')
         return redirect(url_for('main_menu'))
     return render_template('manage_stock.html')
@@ -117,14 +120,15 @@ def restock():
         except ValueError:
             flash('Jumlah stok harus berupa angka.')
             return redirect(url_for('restock'))
-        node = stock_bst.find(sku)
-        if node:
-            node.stock += stock
+        stock_obj = Stock.query.filter_by(sku=sku).first()
+        if stock_obj:
+            stock_obj.stock += stock
+            db.session.commit()
+            flash('Stok barang berhasil diperbarui.')
+            return redirect(url_for('main_menu'))
         else:
             flash('SKU tidak ditemukan. Silakan tambahkan stok terlebih dahulu.')
             return redirect(url_for('restock'))
-        flash('Stok barang berhasil diperbarui.')
-        return redirect(url_for('main_menu'))
     return render_template('restock.html')
 
 @app.route('/manage_transactions', methods=['GET', 'POST'])
@@ -137,12 +141,14 @@ def manage_transactions():
         except ValueError:
             flash('Jumlah beli harus berupa angka.')
             return redirect(url_for('manage_transactions'))
-        node = stock_bst.find(sku)
-        if node and node.stock >= quantity:
-            subtotal = node.price * quantity
-            node.stock -= quantity
-            transaction = Transaction(customer_name, sku, quantity, subtotal)
-            transactions.append(transaction)
+        stock_obj = Stock.query.filter_by(sku=sku).first()
+        if stock_obj and stock_obj.stock >= quantity:
+            subtotal = stock_obj.price * quantity
+            stock_obj.stock -= quantity
+            db.session.commit()
+            transaction = Transaction(customer_name=customer_name, sku=sku, quantity=quantity, subtotal=subtotal)
+            db.session.add(transaction)
+            db.session.commit()
             flash('Transaksi berhasil dicatat.')
             return redirect(url_for('main_menu'))
         else:
@@ -152,6 +158,7 @@ def manage_transactions():
 
 @app.route('/view_transactions')
 def view_transactions():
+    transactions = Transaction.query.all()
     return render_template('view_transactions.html', transactions=transactions)
 
 @app.route('/view_transactions_sorted')
@@ -182,6 +189,28 @@ def delete_stock():
             flash('SKU tidak ditemukan.')
         return redirect(url_for('main_menu'))
     return render_template('delete_stock.html')
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///stock.db"
+db = SQLAlchemy(app)
+
+class Stock(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sku = db.Column(db.String(50), unique=True, nullable=False)
+    nama = db.Column(db.String(100), nullable=False)
+    harga = db.Column(db.Float, nullable=False)
+    stok = db.Column(db.Integer, nullable=False)
+
+class Transaksi(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nama_pelanggan = db.Column(db.String(100), nullable=False)
+    sku = db.Column(db.String(50), nullable=False)
+    kuantitas = db.Column(db.Integer, nullable=False)
+    subtotal = db.Column(db.Float, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Buat tabel database
+db.create_all()
 
 if __name__ == '__main__':
     app.run(debug=True)
