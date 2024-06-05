@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Utama</title>
+    <title>Hapus Stok Barang</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
         html, body {
@@ -14,45 +14,58 @@
             background-size: 100% 100%;
             background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
             background-image: radial-gradient(18% 28% at 24% 50%, #09292BFF 7%, #073AFF00 100%),radial-gradient(18% 28% at 18% 71%, #12289B59 6%, #073AFF00 100%),radial-gradient(70% 53% at 36% 76%, #1B1F1FFF 0%, #073AFF00 100%),radial-gradient(42% 53% at 15% 94%, #000000FF 7%, #073AFF00 100%),radial-gradient(42% 53% at 34% 72%, #000000FF 7%, #073AFF00 100%),radial-gradient(18% 28% at 35% 87%, #AA2222FF 7%, #073AFF00 100%),radial-gradient(31% 43% at 7% 98%, #2C1A1AFF 24%, #073AFF00 100%),radial-gradient(21% 37% at 72% 23%, #1C535B9C 24%, #073AFF00 100%),radial-gradient(35% 56% at 91% 74%, #000000F5 9%, #073AFF00 100%),radial-gradient(74% 86% at 67% 38%, #214471F5 24%, #073AFF00 100%),linear-gradient(125deg, #0B0A0AFF 1%, #4C00FCFF 100%);
-        }
-        body, .card-content .content {
             font-family: 'JetBrains Mono', monospace;
+        }
+
+        button{
+            font-family: 'Jetbrains Mono', monospace;
         }
         .card {
             backdrop-filter: blur(10px);
             background-color: rgba(36,41,46);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            margin: 0 auto;
             color: #ffffff;
         }
         .title {
-            background-color: #E27C4B;
+            background-color: #F14668;
         }
-        
-        .textc a {
-            color: #586CF8;
+        .label {
+            color: #C74F82;
         }
     </style>
 </head>
 <body>
     <section class="section">
-        <div class="columns is-centered">
-            <div class="column is-one-third">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="content">
-                            <h1 class="title is-4 has-text-centered">Menu Utama</h1>
-                            <ul class="textc">
-                                <li><a href="{{ url_for('manage_stock') }}">Kelola Stok Barang</a></li>
-                                <li><a href="{{ url_for('restock') }}">Restok Barang</a></li>
-                                <li><a href="{{ url_for('delete_stock') }}">Hapus Stok Barang</a></li>
-                                <li><a href="{{ url_for('manage_transactions') }}">Kelola Transaksi Konsumen</a></li>
-                                <li><a href="{{ url_for('view_transactions') }}">Lihat Semua Transaksi</a></li>
-                                <li><a href="{{ url_for('view_transactions_sorted') }}">Lihat Transaksi Berdasarkan Subtotal</a></li>
-                                <li><a href="{{ url_for('view_stock') }}">Lihat Stok Barang</a></li>
-                            </ul>
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <h1 class="title has-text-centered">Hapus Stok Barang</h1>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="notification is-danger">
+                                {% for message in messages %}
+                                    <p>{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <form method="post" action="{{ url_for('delete_stock') }}">
+                        <div class="field">
+                            <label class="label">SKU</label>
+                            <div class="control">
+                                <input class="input" type="text" name="sku" required>
+                            </div>
                         </div>
-                    </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-danger" type="submit">Hapus Stok</button>
+                            </div>
+                        </div>
+                    </form>
+                    <a href="{{ url_for('main_menu') }}">Kembali ke Menu Utama</a>
                 </div>
             </div>
         </div>

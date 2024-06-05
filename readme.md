@@ -27,3 +27,9 @@ python app.py
 >Paste in terminal 
 
 This will start the Flask development server and you should be able to access the project at `http://localhost:5000` in your web browser.
+
+This project was made by 
+>Danang_Firmanto
+
+>5230411079
+

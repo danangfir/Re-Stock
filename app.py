@@ -48,6 +48,35 @@ class BST:
             return self._find(node.left, sku)
         else:
             return self._find(node.right, sku)
+        
+    def delete(self, sku):
+        self.root = self._delete(self.root, sku)
+
+    def _delete(self, node, sku):
+        if not node:
+            return None
+        if sku < node.sku:
+            node.left = self._delete(node.left, sku)
+        elif sku > node.sku:
+            node.right = self._delete(node.right, sku)
+        else:
+            if not node.left:
+                return node.right
+            elif not node.right:
+                return node.left
+            else:
+                successor = self._find_min(node.right)
+                node.sku = successor.sku
+                node.name = successor.name
+                node.price = successor.price
+                node.stock = successor.stock
+                node.right = self._delete(node.right, successor.sku)
+        return node
+
+    def _find_min(self, node):
+        while node.left:
+            node = node.left
+        return node
 
 stock_bst = BST()
 transactions = []
@@ -140,6 +169,19 @@ def view_stock():
             inorder(node.right)
     inorder(stock_bst.root)
     return render_template('view_stock.html', items=items)
+
+@app.route('/delete_stock', methods=['GET', 'POST'])
+def delete_stock():
+    if request.method == 'POST':
+        sku = request.form['sku']
+        node = stock_bst.find(sku)
+        if node:
+            stock_bst.delete(sku)
+            flash('Stok barang berhasil dihapus.')
+        else:
+            flash('SKU tidak ditemukan.')
+        return redirect(url_for('main_menu'))
+    return render_template('delete_stock.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
