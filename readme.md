@@ -11,7 +11,7 @@ The BST algorithm is implemented in Python using a Node class that includes attr
 Before you start working on the project, it's recommended to clone the repository to your local machine. You can do this by running the following command in your terminal:
 
 ```bash
-git clone https://github.com/username/repository.git
+https://github.com/danangfir/Re-Stock.git
 ```
 # Running the Project
 
